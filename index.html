@@ -8,7 +8,7 @@
     <script src="https://cdn.jsdelivr.net/npm/aframe-extras@6.1.1/dist/aframe-extras.min.js"></script>
 </head>
 <body>
-    <a-scene xr-mode-ui="XRMode: xr;" webxr="optionalFeatures: hit-test, local-floor; referenceSpaceType: local-floor">
+    <a-scene xr-mode-ui="XRMode: xr;" webxr="optionalFeatures: hit-test, local-floor; referenceSpaceType: local-floor" gesture-detector>
         <a-assets timeout="30000">
             <a-asset-item id="DentalmodelAR" src="prothesis_single_denture_try-_in_scan.glb"></a-asset-item>
         </a-assets>
@@ -17,11 +17,29 @@
 
         <a-entity
             gltf-model="#DentalmodelAR"
-            position="0 1.5 -1"
+            position="0 1 -1"
             rotation="0 0 0"
             scale="0.75 0.75 0.75"
         ></a-entity>
 
     </a-scene>
+    <script>
+        const model = document.querySelector('#DentalmodelAR');
+        let isDragging = false;
+
+        document.addEventListener('touchstart', (e) => {
+            if (e.touches.length === 1) isDragging = true;
+        });
+
+        document.addEventListener('touchmove', (e) => {
+            if (isDragging && e.touches.length === 1) {
+                let touch = e.touches[0];
+                let movementX = (touch.clientX / window.innerWidth) * 2 - 1;
+                model.object3D.position.x += movementX * 0.1;
+            }
+        });
+
+        document.addEventListener('touchend', () => isDragging = false);
+    </script>
 </body>
 </html>
