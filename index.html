@@ -26,6 +26,7 @@
 
     </a-scene>
     <script>
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
         const model = document.querySelector('#DentalmodelAR');
         let isDragging = false;
 
@@ -42,6 +43,22 @@
         });
 
         document.addEventListener('touchend', () => isDragging = false);
+        // Detectar si el usuario entra desde un iPhone o iPad
+        
+
+        if (isIOS) {
+            const anchor = document.createElement('a');
+            anchor.setAttribute('rel', 'ar');
+            anchor.setAttribute('href', 'prothesis_single_denture_try-_in_scan.usdz');
+        
+            const img = document.createElement('img');
+            anchor.appendChild(img);
+            
+            window.addEventListener('load', () => {
+                document.body.appendChild(anchor);
+                anchor.click();
+            });
+        }   
     </script>
 </body>
 </html>
